@@ -1,0 +1,1 @@
+Click here to reset your Transaction Password: {{ url('member/newtransaction/'.$resetMã) }}

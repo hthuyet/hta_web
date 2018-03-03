@@ -1,0 +1,22 @@
+<div class="body-bg"></div>
+<main ng-class="{ 'menu-collapsed': $baSidebarService.isMenuCollapsed() }">
+
+    <ba-sidebar></ba-sidebar>
+    <page-top data-logout="logout()"></page-top>
+
+    <div class="al-main">
+        <div class="al-content">
+            <content-top ng-show="$state.current.data && $state.current.data.showTopContent"></content-top>
+            <div ui-view autoscroll="true" autoscroll-body-top></div>
+        </div>
+    </div>
+
+    <footer class="al-footer clearfix">
+        <div class="al-footer-right">Created with <i class="ion-heart"></i></div>
+        <div class="al-footer-main clearfix">
+            <div class="al-copy">SmartAgri System &copy; 2017</div>
+        </div>
+    </footer>
+
+    <back-top></back-top>
+</main>

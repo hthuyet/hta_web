@@ -1,0 +1,56 @@
+<table class="table table-bordered table-hover table-condensed">
+    <tr>
+        <td></td>
+        <td>Cổng</td>
+        <td>Khu vực</td>
+        <td>Đầu tưới</td>
+        <td>Gốc</td>
+        <td>Lượng nước (lít/s)</td>
+        <td>Hành động</td>
+    </tr>
+    <tr ng-repeat="item in portInfos" class="editable-row">
+        <td>
+            {{$index + 1}}
+        </td>
+        <td>
+            {{ item.port_name || 'empty' }}
+        </td>
+        <td class="select-td">
+            <span editable-select="item.area_id" e-name="area_id" e-form="rowform" e-selectpicker
+                  e-ng-options="d.id as d.code for d in lstArea" e-ng-change="changeArea(item,$data)">
+                {{ showArea(item)}}
+            </span>
+        </td>
+        <td>
+            <span editable-text="item.dautuoi" e-name="dautuoi" e-form="rowform" e-required>
+                {{ item.dautuoi || 'empty' }}
+            </span>
+        </td>
+        <td>
+            <span editable-text="item.goc" e-name="goc" e-form="rowform" e-required>
+                {{ item.goc || 'empty' }}
+            </span>
+        </td>
+        <td>
+            <span editable-text="item.luongnuoc" e-name="weight" e-form="rowform" e-required>
+                {{ item.luongnuoc || 'empty' }}
+            </span>
+        </td>
+        <td>
+            <form editable-form name="rowform" ng-show="rowform.$visible" class="form-buttons form-inline"
+                  shown="inserted == item">
+                <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary editable-table-button btn-xs">
+                    Lưu
+                </button>
+                <button type="button" ng-disabled="rowform.$waiting" 
+                        ng-click="cancelAdd(rowform, $index, item).$cancel()" 
+                        class="btn btn-default editable-table-button btn-xs">
+                    Hủy
+                </button>
+            </form>
+            <div class="buttons" ng-show="!rowform.$visible">
+                <button class="btn btn-primary editable-table-button btn-xs" ng-click="rowform.$show()">Sửa</button>
+            </div>
+        </td>
+    </tr>
+</table>

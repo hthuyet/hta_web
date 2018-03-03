@@ -1,0 +1,81 @@
+<div class="add-row-editable-table">
+    <button class="btn btn-primary" ng-show="!loading" ng-click="addIrr()">Thêm</button>
+</div>
+<table class="table table-bordered table-hover table-condensed">
+    <tr>
+        <td></td>
+        <td>Thiết bị</td>
+        <td>Bước</td>
+        <td>Cổng</td>
+        <td>Điều kiện</td>
+        <td>Khối lượng</td>
+        <td>Bắt đầu</td>
+        <td>Thời gian</td>
+        <td>Kết thúc</td>
+        <td>Hành động</td>
+    </tr>
+    <tr ng-repeat="irrigation in irrigationDetails" class="editable-row">
+        <td>
+            {{$index + 1}}
+        </td>
+        <td class="select-td">
+            <span editable-select="irrigation.device_id" e-name="device_id" e-form="rowform" e-selectpicker
+                  e-ng-options="d.id as d.code for d in lstDevice" e-ng-change="changeDevice(irrigation,$data)">
+                {{ showDevice(irrigation)}}
+            </span>
+        </td>
+        <td>
+            <span editable-text="irrigation.step" e-name="step" e-form="rowform" e-required>
+                {{ irrigation.step || 'empty' }}
+            </span>
+        </td>
+        <td>
+            <span editable-select="irrigation.port" e-name="port" e-form="rowform" e-selectpicker
+                  e-ng-options="p.id as p.label for p in lstPort" e-ng-change="changePort(irrigation,$data)">
+                {{ showPort(irrigation)}}
+            </span>
+        </td>
+        <td>
+            <span editable-text="irrigation.condition" e-name="condition" e-form="rowform" e-required>
+                {{ irrigation.condition || 'empty' }}
+            </span>
+        </td>
+        <td>
+            <span editable-text="irrigation.weight" e-name="weight" e-form="rowform" e-required>
+                {{ irrigation.weight || 'empty' }}
+            </span>
+        </td>
+        <td>
+            <span editable-text="irrigation.from" e-name="from" e-form="rowform" e-required>
+                {{ irrigation.from || 'empty' }}
+            </span>
+        </td>
+        <td>
+            <span editable-text="irrigation.time" e-name="time" e-form="rowform" e-required>
+                {{ irrigation.time || 'empty' }}
+            </span>
+        </td>
+        <td>
+            <span editable-text="irrigation.to" e-name="to" e-form="rowform" e-required>
+                {{ irrigation.to || 'empty' }}
+            </span>
+        </td>
+        <td>
+            <form editable-form name="rowform" ng-show="rowform.$visible" class="form-buttons form-inline"
+                  shown="inserted == irrigation">
+                <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary editable-table-button btn-xs">
+                    Lưu
+                </button>
+                <button type="button" ng-disabled="rowform.$waiting" 
+                        ng-click="cancelAdd(rowform,$index, irrigation).$cancel()" 
+                        class="btn btn-default editable-table-button btn-xs">
+                    Hủy
+                </button>
+            </form>
+            <div class="buttons" ng-show="!rowform.$visible">
+                <button class="btn btn-primary editable-table-button btn-xs" ng-click="rowform.$show()">Sửa</button>
+                <button class="btn btn-danger editable-table-button btn-xs" ng-click="removeIrr($index, irrigation)">Xóa</button>
+            </div>
+        </td>
+    </tr>
+</table>

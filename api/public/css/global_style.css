@@ -1,0 +1,157 @@
+.page-tabs{height:45px;margin:0 -12px 24px;padding:0 24px !important;background:#f5f5f5 !important;border-bottom:1px solid #e0e0e0;position: relative;}
+.page-tabs ul{list-style: none;margin:0;padding:0;}
+.page-tabs li{margin:0 !important;float:left;position: relative;}
+.page-tabs li a{display:block;text-decoration: none;color:#90a4ae;text-transform: uppercase;padding:13px 16px;border-radius:0;margin-bottom:-1px;letter-spacing:0;white-space: nowrap;cursor: pointer;}
+.page-tabs li:hover{}
+.page-tabs li a:hover{color:#607d8b;}
+.page-tabs li.active{}
+.page-tabs li.active a{color:#E67A7A;border-bottom:1px solid #E67A7A !important;background-color:transparent;font-weight:400;}
+.box.profile{
+  border-top-color: #00c0ef;
+}
+.box.login-pass{
+  border-top-color: #FF0000;
+}
+.box.tran-pass{
+  border-top-color:#0000C2;
+}
+li.active_profile{
+  color: #555555;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-bottom-color: transparent;
+  cursor: default;
+}
+.lable_red{
+  color: #ff0000;
+}
+.col-sm-2.control-label{
+  font-weight: normal;
+}
+.my_wallet_total{max-width:940px;margin:0 auto;font-family:'PT Sans', sans-serif;font-size:14px;color:#fff;line-height:20px;background:url("images/my-wallet-total-icon.png") #e00051 0 0 no-repeat;background-position:10px 50%;background-size:contain;padding:10px;border-radius:7px;text-align:right;}
+.my_wallet_total .total_btc_number{font-size:22px;line-height:30px;font-weight: bold;}
+.my_wallet_total .total_btc_title{font-size:22px;line-height:30px;}
+
+.my_pin_current{width:100%;margin:10px 0 0 0;font-size: 22px;color:#B73333;font-weight: normal;text-align: center;}
+.my_invest_current{width:100%;margin:10px 0 0 0;font-size: 22px;color:#0063dc;font-weight: normal;text-align: center;}
+
+.my_wallet_sub_item{font-family:'PT Sans', sans-serif;font-size:14px;color:#fff;line-height:20px;text-align:right;}
+.my_wallet_sub_item .total_btc_number{font-size:22px;line-height:30px;font-weight: bold;}
+.my_wallet_sub_item .total_btc_title{font-size:22px;line-height:30px;}
+
+.my_wallet_sub_item_box{margin:10px 15px;padding:10px;background-position:10px 50%;background-size:90px;border-radius:7px;background-repeat: no-repeat;}
+
+.my_wallet_invest{}
+.my_wallet_invest .my_wallet_sub_item_box{background-color:#1C77BA;}
+.my_wallet_accumulation{}
+.my_wallet_accumulation .my_wallet_sub_item_box{background-color:#01B5E5;}
+.my_wallet_income{}
+.my_wallet_income .my_wallet_sub_item_box{background-color:#00C25E;}
+
+.my_wallet_fnc_item{position: relative;float:left;}
+.my_wallet_fnc_item a{margin:10px 10px;padding:9px 5px;display: block;box-shadow:1px 1px 3px 0 #000;background-color: #90f;color:#fff;cursor:pointer;font-size: 14px;text-decoration: none;border-radius:5px;text-transform:uppercase;text-align: 	center;}
+
+.addBTCAmountInfo{float:right;width:100%;margin:8px 0;}
+.addBTCAmountInfo .AmountUSDText{margin-left:15px;}
+.addBTCAmountInfo .AmountVNDText{margin-left:15px;}
+.addBTCAmountInfo2{float:left;width:100%;margin:8px 0;}
+.addBTCAmountInfo2 .addBTCCol{text-align: center;}
+.addBTCAmountInfo2 .addBTCCol img{max-width:212px;}
+.addBTCAmountInfo2 .addBTCCol p{font-style: italic;}
+.addBTCAmountButton{float:left;width:100%;margin:8px 0;}
+.addBTCSubmitBtn{display: block;background-color: #3c8dbc;border-color:#367fa9);border-width:1px;border-style: solid;padding:12px 50px;margin:10px auto;box-shadow:1px 1px 3px 0 rgba(0, 0, 0, .5);cursor: pointer;font-size: 18px;text-align: center;color:#fff;border-radius:7px;}
+.controls.input{
+  margin-bottom: 10px;
+}
+.AddBTCHistoryTitleText{float:left;width:100%;font-size:22px;line-height:30px;color:#0509C3;text-align: center;}
+.addBTC-listing-row{float:left;width:100%;border:1px solid #DDDDDD;margin:0 0 24px 0;color:#333;font-size:14px;}
+.addBTC-listing-row .listing-table{width:100%;border-collapse: collapse;}
+.addBTC-listing-row .listing-table td{padding:8px;}
+.addBTC-listing-row .listing-table-header{font-weight: bold;background-color: #E0C5F8;}
+.addBTC-listing-row .listing-table .listing-table-middle{background-color: #F2F2F2;border-bottom:0 solid #DDDDDD;}
+.addBTC-listing-row .listing-table .listing-table-middle2{background-color: #FFFFFF;border-bottom:0 solid #DDDDDD;}
+
+.addBTC-listing-row .listing-table .listing-table-waiting{}
+.addBTC-listing-row .listing-table .listing-table-done{color:#03A9F4;}
+.addBTC-listing-row .listing-table .listing-table-pause{color:#FF0017;}
+
+.user-responsive{display: none;font-style: italic;white-space: nowrap;font-size: 11px;}
+
+.addBTC-listing-row .listing-table .confirm_addBTC_btn{color:#FF4700;cursor: pointer;}
+.addBTC-listing-row .listing-table .confirm_addBTC_btn_waiting{color:#444;cursor:default;}
+.addBTC-listing-row .listing-table .cancel_addBTC_btn{color:#333;cursor: pointer;}
+.addBTC-listing-row .listing-table .addBTCConfirmAttached{}
+.addBTC-listing-row .listing-table .addBTCConfirmAttached img{max-width:30px;max-height:30px;}
+.addBTC-listing-row .listing-table .approved_addBTC{color:#1FAB04;}
+.addBTC-listing-row .listing-table .cancel_addBTC{color:#444;}
+.field-validation-error{display: none;}
+.input-validation-error{color:red;border-color:red;}
+.field-validation-error{color:red;font-style: italic;}
+.fileUpload {
+  position: relative;
+  overflow: hidden;
+}
+.fileUpload input.upload {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.thumb{
+  width: 100px;
+}
+.username{
+  font-weight: bold;
+  font-family: normal;
+}
+.wait{
+  display: none;
+}
+.pin{
+  margin-right: 10px;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+}
+.timer-body-block{
+  float: left;
+  padding: 0px;
+}
+.timer-body-block .table-cell{
+  display: inline-block;
+  margin: 0 5px;
+  width: 50px;
+}
+.timer-body-block .table-cell .tab-val{
+  color: #0063dc;
+  font-weight: bold;
+  font-size: 18px;
+}
+#number{
+  text-align: center;
+  padding-top: 20px;
+  font-weight: bold;
+}
+#btcuse{
+  color: #B73333;
+  font-weight: bold;
+  padding-top: 20px;
+
+}
+#pinuse{
+  color: #B73333;
+  font-weight: bold;
+  padding-top: 20px;
+}
+#created{
+  padding-top: 20px;
+}
+#award{
+  padding-top: 20px;
+}
+#watingtime{
+  padding-top: 20px;
+}

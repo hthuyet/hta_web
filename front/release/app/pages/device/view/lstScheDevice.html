@@ -1,0 +1,132 @@
+<form name="myForm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+                <em class="ion-ios-close-empty sn-link-close"></em>
+            </button>
+            <h4 class="modal-title">Danh sách lịch thiết bị</h4>
+        </div>
+        <div class="modal-body" class="form-inline ng-cloak">
+            <div class="row">
+                <div class="col-md-12">
+                    <div ba-panel ba-panel-title="Danh sách lịch thiết bị" 
+                         ba-panel-search="true" 
+                         search-value="search" 
+                         my-enter="searchDevice()" 
+                         ba-panel-class="with-scroll">
+
+                        <button type="button" ng-show="device_manage" ng-click="add()" class="btn btn-primary">
+                            <i class="glyphicon glyphicon-plus-sign"></i>&nbsp;&nbsp;Thêm mới
+                        </button>
+
+                        <div class="horizontal-scroll">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr class="sortable ">
+                                        <th class="table-id">#</th>
+                                        <th>code {{pagination.totalItems}}</th>
+                                        <th>name {{pagination.currentPage}}</th>
+                                        <th>assign {{pagination.maxSize}}</th>
+                                        <th>assign_id {{pagination.itemPerPage}}</th>
+                                        <th>devicetype_id</th>
+                                        <th>port_status</th>
+                                        <th>Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-show="!isLoading">
+                                    <tr ng-repeat="item in data" class="no-top-border" 
+                                        ng-class="item.state == '1' ? 'online' : 'offline'" id="{{item.code}}">
+                                        <td class="table-id">{{item.id}}</td>
+                                        <td>
+                                            <span ng-show="device_manage" ng-click="edit(item)" 
+                                                  style="cursor: pointer;color: rgb(23, 96, 147);">
+                                                {{item.code}}
+                                            </span>
+                                            <span ng-show="!device_manage">
+                                                {{item.code}}
+                                            </span>
+                                        </td>
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.assign}}</td>
+                                        <td>{{item.assign_username}}</td>
+                                        <td>{{item.device_type_name}}</td>
+                                        <td>
+                                            <span ng-repeat="(key, port) in item.jsonPort">
+                                                <label class="checkbox-inline custom-checkbox nowrap">
+                                                    <input type="checkbox" value="1" ng-checked="port.value">
+                                                    <span>&nbsp;</span>
+                                                </label>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="item.state == 1">
+                                                ONLINE
+                                            </span>
+                                            <span ng-if="item.state != 1">
+                                                OFFLINE
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="hidden-xs hidden-sm">
+                                                <button ng-show="device_manage" 
+                                                        class="btn btn-xs btn-danger"
+                                                        mwl-confirm
+                                                        title="Xóa thiết bị"
+                                                        message="Bạn muốn xóa thiết bị?"
+                                                        confirm-text="Đồng ý"
+                                                        cancel-text="Hủy"
+                                                        placement="top"
+                                                        on-confirm="delete(item)"
+                                                        on-cancel="cancelClicked = true"
+                                                        confirm-button-type="danger"
+                                                        cancel-button-type="default">
+                                                    <i class="glyphicon glyphicon-trash">
+                                                    </i>
+                                                </button>
+
+                                                <button type="button" ng-show="device_manage"  
+                                                        title="Cập nhật thiết bị" class="btn btn-sm btn-warning" data-toggle="modal" 
+                                                        ng-click="edit(item)">
+                                                    <i class="glyphicon glyphicon-edit"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tbody ng-show="isLoading">
+                                    <tr>
+                                        <td colspan="7" class="text-center">Đang tải dữ liệu ... </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="7" class="text-center">
+                                <uib-pagination class="pagination-sm" 
+                                                items-per-page="pagination.itemPerPage"
+                                                total-items="pagination.totalItems" 
+                                                ng-model="pagination.currentPage" 
+                                                max-size="pagination.maxSize"
+                                                boundary-link-numbers="true" 
+                                                ng-change="pageChanged()"></uib-pagination>
+                                </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                            <div ng-show="isLoading" class="loading-indicator"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix2"></div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" ng-click="save()" ladda="saving" data-style="expand-left">
+                    <i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;&nbsp;Lưu</button>
+                <button type="button" class="btn btn-default" ng-click="$dismiss()">
+                    <i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Hủy</button>
+            </div>
+        </div>
+
+</form>
+
+

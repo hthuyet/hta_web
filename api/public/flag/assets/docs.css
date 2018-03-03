@@ -1,0 +1,33 @@
+.flag-wrapper {
+  width: 50%;
+  display: inline-block;
+  position: relative;
+  box-shadow: 0 0 0px black;
+  overflow: hidden;
+  margin-bottom: 20px;
+  float:left;
+}
+.flag-wrapper:after {
+  padding-top: 75%;
+  /* ratio */
+  display: block;
+  content: '';
+}
+.flag-wrapper .flag {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+}
+.no-wrap {
+  white-space: nowrap;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+.all-flags .flag-icon-background {
+  cursor: pointer;
+}

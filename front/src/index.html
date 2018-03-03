@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="BlurAdmin">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title data-ng-bind="'SmartAgri System | ' + $state.current.data.pageTitle"></title>
+
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900&subset=latin,greek,greek-ext,vietnamese,cyrillic-ext,latin-ext,cyrillic' rel='stylesheet' type='text/css'>
+
+        <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon-96x96.png">
+
+        <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
+        <!-- bower:css -->
+        <!-- run `gulp inject` to automatically populate bower styles dependencies -->
+        <!-- endbower -->
+        <!-- endbuild -->
+
+        <!-- build:css({.tmp/serve,src}) styles/app.css -->
+        <!-- inject:css -->
+        <!-- css files will be automatically insert here -->
+        <!-- endinject -->
+        <!-- endbuild -->
+        <!--        <link rel="stylesheet" href="../bower_components/ladda/dist/ladda.min.css">
+                <link rel='stylesheet' href='../bower_components/angular-loading-bar/build/loading-bar.min.css' type='text/css' media='all' />
+                <link rel="stylesheet" href="./assets/css/select2.css">
+                <link rel="stylesheet" href="./assets/css/selectize.default.css">-->
+    </head>
+    <body>
+        <style type="text/css">
+            /*            .has-error .form-group{
+                            border: 1px solid #a94442 !important;
+                        }*/
+
+            /***  
+Page Loading       
+***/
+            .page-on-load {
+                background: #fefefe;
+            }
+            .page-on-load .page-header,
+            .page-on-load .page-container,
+            .page-on-load .page-footer,
+            .page-on-load .al-content,
+            .page-on-load > .clearfix {
+                display: none;
+                transition: all 2s;
+            }
+            .page-spinner-bar {
+                position: fixed;
+                z-index: 10051;
+                width: 100px;
+                top: 40%;
+                left: 50%;
+                margin-left: -55px;
+                text-align: center;
+            }
+            .page-spinner-bar > div {
+                margin: 0 5px;
+                width: 18px;
+                height: 18px;
+                background: #eee;
+                border-radius: 100% !important;
+                display: inline-block;
+                -webkit-animation: bounceDelay 1.4s infinite ease-in-out;
+                animation: bounceDelay 1.4s infinite ease-in-out;
+                /* Prevent first frame from flickering when animation starts */
+                -webkit-animation-fill-mode: both;
+                animation-fill-mode: both;
+            }
+            .page-spinner-bar .bounce1 {
+                -webkit-animation-delay: -0.32s;
+                animation-delay: -0.32s;
+            }
+            .page-spinner-bar .bounce2 {
+                -webkit-animation-delay: -0.16s;
+                animation-delay: -0.16s;
+            }
+
+            .page-spinner-bar > div,
+            .block-spinner-bar > div {
+                background: #54dac7;
+            }
+            @-webkit-keyframes bounceDelay {
+                0%, 80%, 100% {
+                    -webkit-transform: scale(0);
+                }
+                40% {
+                    -webkit-transform: scale(1);
+                }
+            }
+            @keyframes bounceDelay {
+                0%, 80%, 100% {
+                    transform: scale(0);
+                    -webkit-transform: scale(0);
+                }
+                40% {
+                    transform: scale(1);
+                    -webkit-transform: scale(1);
+                }
+            }
+
+            //-------------------------------------
+            .modal {
+                text-align: center;
+            }
+
+            .modal-full {
+                width: 90% !important;
+                min-height: 80% !important;
+            }
+
+            @media screen and (min-width: 768px) { 
+                .modal:before {
+                    display: inline-block;
+                    vertical-align: middle;
+                    content: " ";
+                    height: 100%;
+                }
+            }
+
+            .modal-dialog {
+                display: inline-block;
+                text-align: left;
+                vertical-align: middle;
+            }
+
+            .modal-body {
+                max-height: calc(100vh - 210px) !important;
+                overflow-y: auto !important;
+            }
+
+
+            .has-error .control-label{
+                color: #a94442 !important;
+            }
+            .clearfix2{
+                clear: both;
+                margin-top: 15px !important;
+            }
+            .control-label{
+                margin-top: 8px !important;
+            }
+
+
+            .ui-select-bootstrap .ui-select-choices-row.active>span{
+                background-color: #a8c1d6 !important;
+            }
+            .ui-select-highlight {
+                font-weight: bold;
+                color: red;
+            }
+
+            .selectize-control > .selectize-dropdown {
+                top: 36px;
+            }
+            /* Some additional styling to demonstrate that append-to-body helps achieve the proper z-index layering. */
+            .select-box {
+                background: #fff;
+                position: relative;
+                z-index: 1;
+            }
+            .alert-info.positioned {
+                margin-top: 1em;
+                position: relative;
+                z-index: 10000; /* The select2 dropdown has a z-index of 9999 */
+            }
+            .alert{
+                color: red !important;
+            }
+
+            .ladda-button {
+                padding: 6px 12px;
+            }
+        </style>
+
+        <div ui-view></div>
+
+        <!--        <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+                <script src="../bower_components/jquery-ui/jquery-ui.min.js"></script>
+                <script src="../bower_components/jquery.easing/js/jquery.easing.min.js"></script>
+                <script src="../bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>-->
+
+        <!-- build:js(src) scripts/vendor.js -->
+        <!-- bower:js -->
+        <!-- run `gulp inject` to automatically populate bower script dependencies -->
+        <!-- endbower -->
+        <!-- endbuild -->
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+        <script type="text/javascript">
+            //Dinh dang dd/mm/yyyy
+            function convertToDate(input) {
+                var tmp = input.split("/");
+                return new Date(parseInt(tmp[2]), parseInt(tmp[1]) - 1, parseInt(tmp[0]));
+            }
+        </script>
+        <script src="/plugins/input-mask/jquery.inputmask.js"></script>
+        <script src="/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+        <script src="/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+
+
+
+        <!--        <script src="app/constants.js"></script>
+                <script src="../bower_components/angular/angular.min.js"></script>-->
+
+
+        <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
+        <!-- inject:js -->
+        <!-- js files will be automatically insert here -->
+        <!-- endinject -->
+
+        <!-- inject:partials -->
+        <!-- angular templates will be automatically converted in js and inserted here -->
+        <!-- endinject -->
+        <!-- endbuild -->
+        
+        <script src="../bower_components/ng-idle/angular-idle.min.js"></script>
+        <script type="text/javascript" src="../bower_components/angular-recaptcha/angular-recaptcha.min.js"></script>
+
+        <!--        <script src="../bower_components/ng-websocket/ng-websocket.js"></script>
+                <script src="../bower_components/textAngular/dist/textAngular-sanitize.min.js"></script>
+                <script src="../bower_components/textAngular/dist/textAngular.min.js"></script>
+                <script src="../bower_components/angular-jwt/dist/angular-jwt.min.js"></script>
+                <script src="../bower_components/angular-acl/angular-acl.js"></script>
+                <script src="../bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
+                Spinner
+                <script src="../bower_components/spin.js/spin.js"></script>
+                <script src="../bower_components/angular-spinner/dist/angular-spinner.min.js"></script>
+        
+                <script src="../bower_components/angular-smart-table/dist/smart-table.js"></script>
+                <script src="../bower_components/ngstorage/ngStorage.min.js"></script>
+                <script src="../bower_components/ladda/dist/spin.min.js"></script>
+                <script src="../bower_components/ladda/dist/ladda.min.js"></script>
+                <script src="../bower_components/angular-ladda/dist/angular-ladda.min.js"></script>
+                <script src="../bower_components/angular-bootstrap-confirm/dist/angular-bootstrap-confirm.js"></script>-->
+    </body>
+</html>

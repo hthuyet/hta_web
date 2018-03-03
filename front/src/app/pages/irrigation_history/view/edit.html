@@ -1,0 +1,88 @@
+<form name="myForm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+                <em class="ion-ios-close-empty sn-link-close"></em>
+            </button>
+            <h4 class="modal-title">{{title}}</h4>
+        </div>
+        <div class="modal-body" class="form-inline ng-cloak">
+            <div class="row">
+                <div class="alert closeable" role="alert" style="display: none;width: 80%;margin: 0 auto;" id="myAlert">
+                    <button type="button" class="close" aria-label="Close" onclick="$(this).parent().hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <span id="alertContent"><strong>Well done!</strong> You successfully read this important alert message.</span>
+                    <div class="clearfix2"></div>
+                </div>
+            </div>
+            <div class="clearfix2"></div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group"  ng-class="{'has-error': myForm.username.$touched && myForm.username.$invalid}">
+                        <label  class="control-label col-xs-4" for="username">Tên đăng nhập</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="username" placeholder="Tên đăng nhập" 
+                                   ng-model="item.username" ng-readonly="item.id > 0" required>
+                            <span class="help-block" ng-show="myForm.username.$touched && myForm.username.required">Tên đăng nhập là bắt buộc.</span>
+                            <span class="help-block" ng-show="myForm.username.$touched && myForm.username.$invalid">Tên đăng nhập không hợp lệ.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group"  ng-class="{'has-error': myForm.name.$touched && myForm.name.$invalid}">
+                        <label  class="control-label col-xs-4" for="name">Tên người dùng</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="name" placeholder="Tên người dùng" 
+                                   ng-model="item.name" required>
+                            <span class="help-block" ng-show="myForm.name.$touched && myForm.name.required">Tên thiết bị là bắt buộc.</span>
+                            <span class="help-block" ng-show="myForm.name.$touched && myForm.name.$invalid">Tên thiết bị không hợp lệ.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix2"></div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group"  ng-class="{'has-error': myForm.email.$touched && myForm.email.$invalid}">
+                        <label  class="control-label col-xs-4" for="email">Email</label>
+                        <div class="col-xs-8">
+                            <input type="email" class="form-control" name="email" placeholder="Email" 
+                                   ng-model="item.email" ng-readonly="item.id > 0" required>
+                            <span class="help-block" ng-show="myForm.email.$touched && myForm.email.required">Email là bắt buộc.</span>
+                            <span class="help-block" ng-show="myForm.email.$touched && myForm.email.$invalid">Email không hợp lệ.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group" ng-class="{'has-error': myForm.role.$touched && myForm.role.$invalid}">
+                        <label  class="control-label col-xs-4" for="role">Role</label>
+                        <div class="col-xs-8">
+                            <ui-select ng-model="roleSelect" ng-change="onChange(roleSelect)" 
+                                       name="role" class="btn-group bootstrap-select" 
+                                       style="width: 100%;" title="Chọn Role">
+                                <ui-select-match placeholder="Chọn role...">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices repeat="item in lstRole | propsFilter: {name: $select.search}">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="help-block" ng-show="myForm.role.$touched && myForm.role.required">Role là bắt buộc.</span>
+                            <span class="help-block" ng-show="myForm.role.$touched && myForm.role.$invalid">Role là không hợp lệ.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix2"></div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" ng-click="save()" ladda="saving" data-style="expand-left">
+                    <i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;&nbsp;Lưu</button>
+                <button type="button" class="btn btn-default" ng-click="$dismiss()">
+                    <i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Hủy</button>
+            </div>
+        </div>
+
+</form>
+
+

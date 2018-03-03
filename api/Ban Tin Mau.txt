@@ -1,0 +1,26 @@
+Dieu khien relay :
+Request
+{"cmd":{"id":"1234","type":"2"}, "data":"1,0,0,0,0"}
+Response
+
+Cau hinh DO
+{"cmd":{"id":"1235","type":"3"}, "data":"1,0,6000,106000800,006000800,006000800,006000800,118002030"}
+
+Cau hinh wifi
+{"cmd":{"id":"0","type":"99"},"data":"VSV-Member,belegendary"}
+
+Get ban tin dinh ki
+{"cmd":{"id":"0","type":"98"},"data":""}
+
+Ban tin cau hinh Ip, Port Server
+{"cmd":{"id":"0","type":"97"},"data":"hachiserver.com,1884"}
+
+Ban tin cau hinh ID
+{"cmd":{"id":"0","type":"96"},"data":"000002"}
+
+Ban tin cau hinh thoi gian gui ban tin dinh ky
+{"cmd":{"id":"0","type":"95"},"data":"60"}
+
+
+Configure wifi URL form: http://192.168.4.1/configure?ssid=Ethings&pass=12345678
+Configure mqtt URL form: http://192.168.4.1/configure?servername=xxxxx&port=xxxx&user=ethings&pass=ethings

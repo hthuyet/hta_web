@@ -1,0 +1,128 @@
+- Cat php5.6
+	yum -y remove php*
+	rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+	rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
+	yum install php56w php56w-opcache
+	yum install php56w-fpm php56w-opcache
+	php -version
+	yum -y install gcc php-pear php-devel
+	yum replace php-common --replace-with=php56w-common
+	clear
+	yum replace php-common --replace-with=php56w-common
+	yum install yum-plugin-replace
+	yum replace php-common --replace-with=php56w-common
+	yum replace php-common-5.3.3-49.el6.x86_64 --replace-with=php56w-common
+- MongoDB
+	yum -y install gcc php56w-pear php56w-devel
+	pecl install mongo
+	//Sua extension=mongo.so
+	pecl upgrade mongodb
+	
+	After that you need to restart php-fpm service: (option)
+		sudo service php5-fpm restart
+
+- Grant mysql va cau hinh mysql
+	
+	grant all privileges on *.* to  'thuyetlv'@'%' identified by 'Admin@123';
+	grant all privileges on *.* to  'root'@'%' identified by 'Ssdc@123';
+	grant all privileges on *.* to  'thuyetlv'@'localhost' identified by 'Admin@123';
+	grant all privileges on *.* to  'thuyetlv'@'127.0.0.1' identified by 'Admin@123';
+	grant all privileges on *.* to  'root'@'127.0.0.1' identified by 'admin@123';
+	grant all privileges on *.* to  'root'@'localhost' identified by 'admin@123';
+	grant all privileges on *.* to  'root'@'%' identified by 'admin@123';
+	
+	ALTER USER 'root'@'127.0.0.1' IDENTIFIED BY 'Ssdc@123';
+	ALTER USER 'root'@'localhost' IDENTIFIED BY 'Ssdc@123';
+	ALTER USER 'root'@'%' IDENTIFIED BY 'Ssdc@123';
+	SET PASSWORD = PASSWORD('Ssdc@123');
+	flush privileges;
+	bind-address=0.0.0.0
+	lower_case_table_names=1
+
+	SHOW GLOBAL VARIABLES LIKE 'event_scheduler';
+	SHOW SESSION VARIABLES LIKE 'event_scheduler';
+	SET GLOBAL event_scheduler = ON;
+	
+	UPDATE `device` SET port_update=NOW();
+	SELECT * FROM `device`  WHERE port_update<CURRENT_TIMESTAMP - INTERVAL 5 MINUTE;
+	CREATE EVENT update_offline_device
+		ON SCHEDULE  EVERY 5 MINUTE 
+		DO
+			UPDATE `smartagri_smallhome`.`device` SET state = 0 WHERE state=1 AND port_update<CURRENT_TIMESTAMP - INTERVAL 5 MINUTE;
+	
+- Cai dat mongodb va soap cho php
+	yum install php-soap
+	
+	yum install openssl-dev
+	
+	yum -y update
+	yum -y install gcc php-pear php-devel
+	pecl install mongo
+	pecl install mongodb
+	
+	ps -aux | grep artisan
+
+	
+- Test soap:
+	curl --header "Content-Type: text/xml;charset=UTF-8" --header "SOAPAction:web:sendCommand" --data @control.xml http://localhost:9015/smartagri?wsdl
+
+
+--------------------------------------------PHP cho centos 6.9--------------------------
+I just fought this exact problem for a long time on centos6. The php.ini difference seem like a good place to check, but it didn't give me the answer. It turns out this was related to SELinux.
+
+$ getsebool -a | grep httpd
+allow_httpd_anon_write --> off
+allow_httpd_mod_auth_ntlm_winbind --> off
+allow_httpd_mod_auth_pam --> off
+allow_httpd_sys_script_anon_write --> off
+httpd_builtin_scripting --> on
+httpd_can_check_spam --> off
+httpd_can_network_connect --> off
+httpd_can_network_connect_cobbler --> off
+httpd_can_network_connect_db --> on
+httpd_can_network_memcache --> on
+httpd_can_network_relay --> off
+httpd_can_sendmail --> off
+httpd_dbus_avahi --> on
+httpd_enable_cgi --> on
+httpd_enable_ftp_server --> off
+httpd_enable_homedirs --> off
+httpd_execmem --> off
+httpd_manage_ipa --> off
+httpd_read_user_content --> off
+httpd_run_stickshift --> off
+httpd_setrlimit --> off
+httpd_ssi_exec --> off
+httpd_tmp_exec --> off
+httpd_tty_comm --> on
+httpd_unified --> on
+httpd_use_cifs --> off
+httpd_use_gpg --> off
+httpd_use_nfs --> off
+httpd_use_openstack --> off
+httpd_verify_dns --> off
+
+You'll note, that in my case, httpd_can_network_connect was set to off. This is a boolean in SELinux and can be adjusted with the following command.
+
+$ setsebool -P httpd_can_network_connect on
+- Set timezone cho mysql
+	default-time-zone='+07:00'
+	default-time-zone=Asia/Ho_Chi_Minh
+	SET GLOBAL TIME_ZONE = 'Asia/Ho_Chi_Minh'
+	
+	
+	
+	
+
+nohup gulp serve >> /var/www/html/src_front/server.log 2>&1 &
+echo $! > /var/www/html/src_front/save_pid.txt
+
+
+kill -9 `/var/www/html/src_front/save_pid.txt`
+rm /var/www/html/src_front/save_pid.txt
+
+mongo-php-driver 1.3.4
+pecl upgrade mongodb
+extension=mongodb.so
+
+

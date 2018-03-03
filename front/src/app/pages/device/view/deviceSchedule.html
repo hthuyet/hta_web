@@ -1,0 +1,100 @@
+<form name="myForm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+                <em class="ion-ios-close-empty sn-link-close"></em>
+            </button>
+            <h4 class="modal-title">Đặt lịch thiết bị</h4>
+        </div>
+        <div class="modal-body" class="form-inline ng-cloak">
+            <div class="row">
+                <div class="alert closeable" role="alert" style="display: none;width: 80%;margin: 0 auto;" id="myAlert">
+                    <button type="button" class="close" aria-label="Close" onclick="$(this).parent().hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <span id="alertContent"><strong>Well done!</strong> You successfully read this important alert message.</span>
+                    <div class="clearfix2"></div>
+                </div>
+            </div>
+            <div class="clearfix2"></div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label col-xs-2"  for="inputFirstName">Serial</label>
+                        <div class="col-xs-10">
+                            <input type="text" class="form-control" id="inputEmail" 
+                                   placeholder="Serial" ng-model="device.code" readonly disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label col-xs-2"  for="inputFirstName">Tên thiết bị</label>
+                        <div class="col-xs-10">
+                            <input type="text" class="form-control" id="inputEmail" 
+                                   placeholder="Serial" ng-model="device.code" readonly disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix2"></div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group"  ng-class="{'has-error': myForm.port.$touched && myForm.port.$invalid}">
+                        <label  class="control-label col-xs-2" for="relay">Cổng</label>
+                        <div class="col-xs-10">
+                            <select class="form-control" ng-model="schedule.relay" name="relay" placeholder="Cổng" required>
+                                <option ng-selected="schedule.relay == obj.id" 
+                                        ng-repeat="obj in listPort" 
+                                        ng-value="obj.id">{{obj.label}}</option>
+                            </select>
+                            <span class="help-block" ng-show="myForm.relay.$touched && myForm.relay.required">Cổng là bắt buộc.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix2"></div>
+            <div class="row">
+                <div class="col-sm-6" ng-repeat="(key, value) in listBlocks">
+                    <div class="form-group" ng-form="blockForm">
+                        <label class="control-label col-xs-2" style="padding-right: 0px;">
+                            {{ value.label}}
+                        </label>
+                        <div class="col-xs-10">
+                            <div class="col-xs-3" style="padding-left: 0;padding-top: 3px;">
+                                <ba-switcher switcher-style="primary" switcher-change="switcherChange(value)" 
+                                             switcher-value="value.status"></ba-switcher>
+                            </div>
+                            <div class="col-xs-5" style="padding-right: 0px;" 
+                                 ng-class="{'has-error': (blockForm.start.$touched && (blockForm.start.$invalid || blockForm.start.$error))}">
+                                <input type="text" class="form-control" name="start" 
+                                       placeholder="HH:mm:ss"
+                                       ng-model="value.start" ng-required="value.status" ng-readonly="!value.status">
+                                <span class="help-block" ng-show="blockForm.start.$touched && blockForm.start.$error.required">Thời gian bắt đầu là bắt buộc.</span>
+                                <span class="help-block" ng-show="blockForm.start.$touched && !blockForm.start.$error.required && (blockForm.start.$invalid || blockForm.start.$error)">Thời gian bắt đầu không hợp lệ.</span>
+                            </div>
+                            <div class="col-xs-4" style="padding-right: 0px;" 
+                                 ng-class="{'has-error': (blockForm.time.$touched && blockForm.time.$invalid)}">
+                                <input type="number" class="form-control" name="time" placeholder="Time (s)" 
+                                       ng-model="value.time" 
+                                       min="10" max="9999" ng-required="value.status" ng-readonly="!value.status">
+                                <span class="help-block" ng-show="blockForm.time.$touched && blockForm.time.$error.required">Thời gian là bắt buộc.</span>
+                                <span class="help-block" ng-show="blockForm.time.$touched && !blockForm.time.$error.required && blockForm.time.$invalid">Thời gian không hợp lệ.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix2"></div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" ng-click="save()" ladda="saving" data-style="expand-left">
+                    <i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;&nbsp;Lưu</button>
+                <button type="button" class="btn btn-default" ng-click="$dismiss()">
+                    <i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Hủy</button>
+            </div>
+        </div>
+
+</form>
+
+

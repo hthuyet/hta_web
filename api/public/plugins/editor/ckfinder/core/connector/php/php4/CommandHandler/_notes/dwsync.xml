@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="CommandHandlerBase.php" server="123.30.181.125/public_html/demo/" local="129585693707656169" remote="129592524600000000" />
+<file name="CopyFiles.php" server="123.30.181.125/public_html/demo/" local="129585693710766347" remote="129592524600000000" />
+<file name="CreateFolder.php" server="123.30.181.125/public_html/demo/" local="129585693707566164" remote="129592524600000000" />
+<file name="DeleteFile.php" server="123.30.181.125/public_html/demo/" local="129585693706456101" remote="129592524600000000" />
+<file name="DeleteFolder.php" server="123.30.181.125/public_html/demo/" local="129585693705946071" remote="129592524600000000" />
+<file name="DownloadFile.php" server="123.30.181.125/public_html/demo/" local="129585693706436100" remote="129592524600000000" />
+<file name="FileUpload.php" server="123.30.181.125/public_html/demo/" local="129585693705476045" remote="129592524600000000" />
+<file name="GetFiles.php" server="123.30.181.125/public_html/demo/" local="129585693702405869" remote="129592524600000000" />
+<file name="GetFolders.php" server="123.30.181.125/public_html/demo/" local="129585693701455815" remote="129592524600000000" />
+<file name="Init.php" server="123.30.181.125/public_html/demo/" local="129585693701405812" remote="129592524600000000" />
+<file name="MoveFiles.php" server="123.30.181.125/public_html/demo/" local="129585693701875839" remote="129592524600000000" />
+<file name="QuickUpload.php" server="123.30.181.125/public_html/demo/" local="129585693701445814" remote="129592524600000000" />
+<file name="RenameFile.php" server="123.30.181.125/public_html/demo/" local="129585693699935728" remote="129592524600000000" />
+<file name="RenameFolder.php" server="123.30.181.125/public_html/demo/" local="129585693699915727" remote="129592524600000000" />
+<file name="Thumbnail.php" server="123.30.181.125/public_html/demo/" local="129585693700325750" remote="129592524600000000" />
+<file name="XmlCommandHandlerBase.php" server="123.30.181.125/public_html/demo/" local="129585693699825721" remote="129592524600000000" />
+</dwsync>

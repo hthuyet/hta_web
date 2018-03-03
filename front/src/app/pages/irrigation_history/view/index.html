@@ -1,0 +1,143 @@
+<custom-spinner-bar class="page-spinner-bar" submitting="submitting">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+</custom-spinner-bar>
+
+<div class="widgets">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div ba-panel ba-panel-title="Lượng nước tưới" ba-panel-class="with-scroll table-panel abc">
+                <!-- Tim kiem -->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label  class="control-label col-xs-4" for="fromDate">Từ ngày</label>
+                            <div class="col-xs-8">
+                                <p class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup="{{vm.format}}" 
+                                           datepicker-options="vm.options" ng-model="vm.fromDate" is-open="vm.openedStart"
+                                           close-text="Close" alt-input-formats="vm.altInputFormats" show-button-bar="true" 
+                                           placeholder="Ngày bắt đầu" name="fromDate" ng-change='vm.changeDateTime()'/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="vm.open(0)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label  class="control-label col-xs-4" for="end_date">Đến ngày</label>
+                            <div class="col-xs-8">
+                                <p class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup="{{vm.format}}" 
+                                           datepicker-options="vm.options" ng-model="vm.toDate" is-open="vm.openedEnd" 
+                                           close-text="Close" alt-input-formats="vm.altInputFormats" 
+                                           show-button-bar="true" name="toDate" ng-change='vm.changeDateTime()'/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="vm.open(1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix2"></div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label  class="control-label col-xs-4" for="area">Khu vực</label>
+                            <div class="col-xs-8">
+                                <ui-select ng-model="vm.area" name="area" id="area" 
+                                           ng-change="vm.onChangeArea(vm.area)" 
+                                           class="btn-group bootstrap-select" style="width: 100%;" ng-required="true" 
+                                           title="Chọn khu vực">
+                                    <ui-select-match placeholder="Chọn khu vực...">{{$select.selected.code}} - {{$select.selected.name}}</ui-select-match>
+                                    <ui-select-choices repeat="item in vm.lstArea | propsFilter: {code: $select.search, name: $select.search}">
+                                        <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                        <small>
+                                            Mã: <span ng-bind-html="'' + item.code | highlight: $select.search"></span>
+                                            Tên: <span ng-bind-html="'' + item.name | highlight: $select.search"></span>
+                                        </small>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label  class="control-label col-xs-4">Tổng lượng nước tiêu thụ</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" placeholder="" disabled="" ng-model="vm.sum">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End tim kiem -->
+
+                <div class="clearfix2"></div>
+                <div class="clearfix2"></div>
+
+                <div class="row">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr class="sortable ">
+                                <th class="table-id">#</th>
+                                <th>Thiết bị</th>
+                                <th>Cổng</th>
+                                <th>Đầu tưới</th>
+                                <th>Gốc</th>
+                                <th>Lượng nước (lít/h)</th>
+                                <th>Thời gian</th>
+                                <th>Thời gian (s)</th>
+                                <th>Tổng lượng nước (lít)</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-show="!vm.isLoading">
+                            <tr ng-repeat="item in vm.data" class="no-top-border">
+                                <td class="table-id">{{ (vm.pagination.currentPage - 1) * vm.pagination.itemPerPage + ($index + 1)}}</td>
+                                <td>{{item.serial}}</td>
+                                <td>{{item.port_name}}</td>
+                                <td>{{item.dau_tuoi}}</td>
+                                <td>{{item.goc}}</td>
+                                <td>{{item.luong_nuoc}}</td>
+                                <td>{{item.startTime}} - {{item.endTime}}</td>
+                                <td>{{item.time}}</td>
+                                <td>{{item.tong}}</td>
+                            </tr>
+                        </tbody>
+                        <tbody ng-show="vm.isLoading">
+                            <tr>
+                                <td colspan="9" class="text-center">Đang tải dữ liệu ... </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="9" class="text-center">
+                        <uib-pagination class="pagination-sm" 
+                                        items-per-page="vm.pagination.itemPerPage"
+                                        total-items="vm.pagination.totalItems" 
+                                        ng-model="vm.pagination.currentPage" 
+                                        max-size="vm.pagination.maxSize"
+                                        boundary-link-numbers="true" 
+                                        ng-change="vm.pageChanged()">
+
+                        </uib-pagination>
+                        </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                    <div ng-show="vm.isLoading" class="loading-indicator"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".abc").height($(".al-main").height() + 100);
+    });
+</script>

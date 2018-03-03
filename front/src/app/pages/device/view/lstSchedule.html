@@ -1,0 +1,106 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title">Danh sách lịch server</h4>
+    </div>
+    <div class="modal-body" class="form-inline ng-cloak">
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button" ng-show="device_control" ng-click="add()" class="btn btn-primary">
+                    <i class="glyphicon glyphicon-plus-sign"></i>&nbsp;&nbsp;Thêm mới
+                </button>
+
+                <div class="horizontal-scroll">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr class="sortable ">
+                                <th class="table-id">#</th>
+                                <th>Serial</th>
+                                <th>Loại</th>
+                                <th>Thời điểm</th>
+                                <th>Bắt đầu</th>
+                                <th>Chi tiết</th>
+                                <th>Trạng thái</th>
+                                <th ng-show="device_control">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-show="!isLoading">
+                            <tr ng-repeat="item in data" class="no-top-border">
+                                <td class="table-id">{{item.id}}</td>
+                                <td>
+                                    {{item.serial}}
+                                </td>
+                                <td>
+                                    <span ng-if="item.type == 1">
+                                        Hẹn theo thời điểm cố định
+                                    </span>
+                                    <span ng-if="item.type != 1">
+                                        Định kỳ theo ngày
+                                    </span>
+                                </td>
+                                <td>{{item.content}}</td>
+                                <td>{{item.start_time}}</td>
+                                <td>
+                                    <span ng-bind-html="item.description"></span>
+                                </td>
+                                <td>{{item.is_start}}</td>
+                                <td ng-show="device_control">
+                                    <div class="hidden-xs hidden-sm">
+                                        <button ng-show="device_control" 
+                                                class="btn btn-xs btn-danger"
+                                                mwl-confirm
+                                                title="Xác nhận xóa"
+                                                message="Bạn muốn xóa lịch server?"
+                                                confirm-text="Đồng ý"
+                                                cancel-text="Hủy"
+                                                placement="top"
+                                                on-confirm="delete(item)"
+                                                on-cancel="cancelClicked = true"
+                                                confirm-button-type="danger"
+                                                cancel-button-type="default">
+                                            <i class="glyphicon glyphicon-trash">
+                                            </i>
+                                        </button>
+
+                                        <button type="button" ng-show="device_control"  
+                                                title="Cập nhật lịch server" class="btn btn-sm btn-warning" data-toggle="modal" 
+                                                ng-click="edit(item)">
+                                            <i class="glyphicon glyphicon-edit"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody ng-show="isLoading">
+                            <tr>
+                                <td colspan="7" class="text-center">Đang tải dữ liệu ... </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="7" class="text-center">
+                        <uib-pagination class="pagination-sm" 
+                                        items-per-page="pagination.itemPerPage"
+                                        total-items="pagination.totalItems" 
+                                        ng-model="pagination.currentPage" 
+                                        max-size="pagination.maxSize"
+                                        boundary-link-numbers="true" 
+                                        ng-change="pageChanged()"></uib-pagination>
+                        </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                    <div ng-show="isLoading" class="loading-indicator"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="$dismiss()">
+            <i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Hủy</button>
+    </div>
+</div>
+
+

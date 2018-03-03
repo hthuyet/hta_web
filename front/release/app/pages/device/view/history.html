@@ -1,0 +1,69 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title">Lịch sử điều khiển thiết bị</h4>
+    </div>
+    <div class="modal-body" class="form-inline ng-cloak">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="horizontal-scroll">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr class="sortable ">
+                                <th class="table-id">#</th>
+                                <th>Serial</th>
+                                <th>Loại</th>
+                                <th>Mô tả</th>
+                                <th>Thời gian</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-show="!isLoading">
+                            <tr ng-repeat="item in data" class="no-top-border">
+                                <td class="table-id">{{ (pagination.currentPage - 1) * pagination.itemPerPage + ($index + 1)}}</td>
+                                <td>
+                                    {{item.code}}
+                                </td>
+                                <td ng-switch on="item.type">
+                                    <div class="animate-switch" ng-switch-when="1">Điều khiển</div>
+                                    <div class="animate-switch" ng-switch-when="2">Lịch server</div>
+                                    <div class="animate-switch" ng-switch-when="3">Lịch thiết bị</div>
+                                    <div class="animate-switch" ng-switch-when="4">Lịch tưới</div>
+                                </td>
+                                <td>{{item.description}}</td>
+                                <td>{{item.created_at}}</td>
+                            </tr>
+                        </tbody>
+                        <tbody ng-show="isLoading">
+                            <tr>
+                                <td colspan="5" class="text-center">Đang tải dữ liệu ... </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5" class="text-center">
+                        <uib-pagination class="pagination-sm" 
+                                        items-per-page="pagination.itemPerPage"
+                                        total-items="pagination.totalItems" 
+                                        ng-model="pagination.currentPage" 
+                                        max-size="pagination.maxSize"
+                                        boundary-link-numbers="true" 
+                                        ng-change="pageChanged()"></uib-pagination>
+                        </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                    <div ng-show="isLoading" class="loading-indicator"></div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix2"></div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="$dismiss()">
+            <i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Hủy</button>
+    </div>
+</div>
+
+

@@ -1,0 +1,132 @@
+<custom-spinner-bar class="page-spinner-bar" submitting="submitting">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+</custom-spinner-bar>
+
+<div class="widgets">
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div ba-panel ba-panel-title="Danh sách người dùng"
+                 ba-panel-class="with-scroll">
+
+                <button type="button" ng-show="user_manage" 
+                        ng-click="add()" class="btn btn-primary">
+                    <i class="glyphicon glyphicon-plus-sign"></i>&nbsp;&nbsp;Thêm mới
+                </button>
+
+                <div class="horizontal-scroll">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr class="sortable ">
+                                <th class="table-id">#</th>
+                                <th>Tên đăng nhập</th>
+                                <th>Tên người dùng</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody ng-show="!isLoading">
+                            <tr ng-repeat="item in data" class="no-top-border">
+                                <td class="table-id">{{ (pagination.currentPage - 1) * pagination.itemPerPage + ($index + 1)}}</td>
+                                <td>
+                                    <span ng-show="user_manage" ng-click="edit(item)" 
+                                          style="cursor: pointer;color: rgb(23, 96, 147);">
+                                        {{item.username}}
+                                    </span>
+                                    <span ng-show="!user_manage">
+                                        {{item.username}}
+                                    </span>
+                                </td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.email}}</td>
+                                <td>{{item.role_name}}</td>
+                                <td>
+                                    <div class="visible-xs visible-sm">
+                                        <div class="dropdown">
+                                            <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Thao tác
+                                                <span class="caret"></span></button>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li>
+                                                    <button type="button" ng-show="user_manage" ng-click="start()" class="btn btn-xs btn-danger">
+                                                        <i class="glyphicon glyphicon-remove-circle">
+                                                        </i>
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button type="button" class="btn btn-xs btn-warning" data-toggle="modal" 
+                                                            ng-click="edit(item)">
+                                                        <i class="glyphicon glyphicon-edit"></i>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="hidden-xs hidden-sm">
+                                        <button ng-show="user_manage"  type="button" 
+                                                title="Cập nhật thông tin người dùng" class="btn btn-xs btn-warning" data-toggle="modal" 
+                                                ng-click="edit(item)">
+                                            <i class="glyphicon glyphicon-edit"></i>
+                                        </button>
+                                        <button ng-show="user_manage" 
+                                                class="btn btn-xs btn-danger"
+                                                mwl-confirm
+                                                title="Reset mật khẩu"
+                                                message="Bạn muốn reset mật khẩu người dùng?"
+                                                confirm-text="Đồng ý"
+                                                cancel-text="Hủy"
+                                                placement="top"
+                                                on-confirm="reset(item)"
+                                                on-cancel="cancelClicked = true"
+                                                confirm-button-type="danger"
+                                                cancel-button-type="default">
+                                            <i class="glyphicon glyphicon-repeat">
+                                            </i>
+                                        </button>
+                                        <button ng-show="user_manage" 
+                                                class="btn btn-xs btn-danger"
+                                                mwl-confirm
+                                                title="Xóa người dùng"
+                                                message="Bạn muốn xóa người dùng?"
+                                                confirm-text="Đồng ý"
+                                                cancel-text="Hủy"
+                                                placement="top"
+                                                on-confirm="delete(item)"
+                                                on-cancel="cancelClicked = true"
+                                                confirm-button-type="danger"
+                                                cancel-button-type="default">
+                                            <i class="glyphicon glyphicon-trash">
+                                            </i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody ng-show="isLoading">
+                            <tr>
+                                <td colspan="5" class="text-center">Đang tải dữ liệu ... </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5" class="text-center">
+                        <uib-pagination class="pagination-sm" 
+                                        items-per-page="pagination.itemPerPage"
+                                        total-items="pagination.totalItems" 
+                                        ng-model="pagination.currentPage" 
+                                        max-size="pagination.maxSize"
+                                        boundary-link-numbers="true" 
+                                        ng-change="pageChanged()"></uib-pagination>
+                        </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                    <div ng-show="isLoading" class="loading-indicator"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

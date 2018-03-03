@@ -1,0 +1,284 @@
+<custom-spinner-bar class="page-spinner-bar" submitting="submitting">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+</custom-spinner-bar>
+
+<div class="widgets">
+    <div class="row">
+        <div class="col-md-12">
+            <div ba-panel ba-panel-title="Danh sách thiết bị" 
+                 ba-panel-class="with-scroll">
+
+                <button type="button" ng-show="device_manage" ng-click="add()" class="btn btn-primary">
+                    <i class="glyphicon glyphicon-plus-sign"></i>&nbsp;&nbsp;Thêm mới
+                </button>
+
+                <div class="horizontal-scroll">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr class="sortable ">
+                                <th class="table-id">#</th>
+                                <th>Serial</th>
+                                <th>Tên thiết bị</th>
+                                <th>Người dùng</th>
+                                <th>Tên người dùng</th>
+                                <th>Loại thiết bị</th>
+                                <th>Trạng thái cổng</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-show="!isLoading">
+                            <tr ng-repeat="item in data" class="no-top-border" 
+                                ng-class="item.state == '1' ? 'online' : 'offline'" id="{{item.code}}">
+                                <td class="table-id">{{ (pagination.currentPage - 1) * pagination.itemPerPage + ($index + 1)}}</td>
+                                <td>
+                                    <span ng-show="device_manage" ng-click="edit(item)" 
+                                          style="cursor: pointer;color: rgb(23, 96, 147);">
+                                        {{item.code}}
+                                    </span>
+                                    <span ng-show="!device_manage">
+                                        {{item.code}}
+                                    </span>
+                                </td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.assign_username}}</td>
+                                <td>{{item.assign}}</td>
+                                <td>{{item.device_type_name}}</td>
+                                <td>
+                                    <span ng-repeat="(key, port) in item.jsonPort">
+                                        <label class="checkbox-inline custom-checkbox nowrap">
+                                            <input type="checkbox" id="port_{{item.code}}_{{key}}" value="1" ng-checked="port.value" ng-readonly="true" onclick="return false;">
+                                            <span>&nbsp;</span>
+                                        </label>
+                                    </span>
+                                </td>
+                                <td id="state_{{item.code}}">
+                                    <span ng-if="item.state == 1">
+                                        ONLINE
+                                    </span>
+                                    <span ng-if="item.state != 1">
+                                        OFFLINE
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="visible-xs visible-sm">
+                                        <div class="dropdown">
+                                            <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Thao tác
+                                                <span class="caret"></span></button>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li ng-show="device_control">
+                                                    <button type="button"  title="Cập nhật thông tin port" class="btn btn-sm btn-warning" data-toggle="modal" 
+                                                            ng-click="updatePort(item)">
+                                                        <i class="glyphicon glyphicon-info-sign">&nbsp;&nbsp;Cập nhật thông tin port</i>
+                                                    </button>
+                                                </li>
+                                                <li ng-show="device_manage">
+                                                    <button type="button"  title="Cập nhật thiết bị" class="btn btn-sm btn-warning" data-toggle="modal" 
+                                                            ng-click="edit(item)">
+                                                        <i class="glyphicon glyphicon-edit">&nbsp;&nbsp;Cập nhật thiết bị</i>
+                                                    </button>
+                                                </li>
+                                                <li ng-show="device_control">
+                                                    <button type="button" ng-show="device_control" 
+                                                            title="Điều khiển thiết bị" class="btn btn-sm btn-warning" data-toggle="modal" 
+                                                            ng-click="control2(item)">
+                                                        <i class="glyphicon glyphicon-console">&nbsp;&nbsp;Điều khiển thiết bị</i>
+                                                    </button>
+                                                </li>
+                                                <li ng-show="device_control">
+                                                    <button type="button" ng-show="false"  
+                                                            title="Danh sách lịch thiết bị" class="btn btn-sm btn-warning" data-toggle="modal" 
+                                                            ng-click="lstDeviceSchedule(item)">
+                                                        <i class="glyphicon glyphicon-time">&nbsp;&nbsp;Danh sách lịch thiết bị</i>
+                                                    </button>
+                                                </li>
+                                                <li ng-show="device_control">
+                                                    <button type="button" ng-show="device_control" 
+                                                            title="Danh sách lịch server" class="btn btn-sm btn-warning" data-toggle="modal" 
+                                                            ng-click="listServer(item)">
+                                                        <i class="glyphicon glyphicon-cloud-download">&nbsp;&nbsp;Danh sách lịch server</i>
+                                                    </button>
+                                                </li>
+                                                <li ng-show="device_control">
+                                                    <button type="button" ng-show="device_control" 
+                                                            title="Lịch sử điều khiển" class="btn btn-sm btn-warning" data-toggle="modal" 
+                                                            ng-click="history(item)">
+                                                        <i class="glyphicon glyphicon-hourglass">&nbsp;&nbsp;Lịch sử điều khiển</i>
+                                                    </button>
+                                                </li>
+                                                <li ng-show="device_manage">
+                                                    <button ng-show="device_manage" 
+                                                            class="btn btn-xs btn-danger"
+                                                            mwl-confirm
+                                                            title="Xóa thiết bị"
+                                                            message="Bạn muốn xóa thiết bị?"
+                                                            confirm-text="Đồng ý"
+                                                            cancel-text="Hủy"
+                                                            placement="top"
+                                                            on-confirm="delete(item)"
+                                                            on-cancel="cancelClicked = true"
+                                                            confirm-button-type="danger"
+                                                            cancel-button-type="default">
+                                                        <i class="glyphicon glyphicon-trash">&nbsp;&nbsp;Xóa thiết bị
+                                                        </i>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="hidden-xs hidden-sm">
+                                        <button type="button" ng-show="device_control"  
+                                                title="Cập nhật thông tin port" class="btn btn-sm btn-warning" data-toggle="modal" 
+                                                ng-click="updatePort(item)">
+                                            <i class="glyphicon glyphicon-info-sign"></i>
+                                        </button>
+                                        <button type="button" ng-show="device_manage"  
+                                                title="Cập nhật thiết bị" class="btn btn-sm btn-warning" data-toggle="modal" 
+                                                ng-click="edit(item)">
+                                            <i class="glyphicon glyphicon-edit"></i>
+                                        </button>
+                                        <button type="button" ng-show="false" 
+                                                title="Điều khiển thiết bị 1" class="btn btn-sm btn-warning" data-toggle="modal" 
+                                                ng-click="control(item)">
+                                            <i class="glyphicon glyphicon-console"></i>
+                                        </button>
+                                        <button type="button" ng-show="device_control" 
+                                                title="Điều khiển thiết bị" class="btn btn-sm btn-warning" data-toggle="modal" 
+                                                ng-click="control2(item)">
+                                            <i class="glyphicon glyphicon-console"></i>
+                                        </button>
+                                        <button type="button" ng-show="false"  
+                                                title="Danh sách lịch thiết bị" class="btn btn-sm btn-warning" data-toggle="modal" 
+                                                ng-click="lstDeviceSchedule(item)">
+                                            <i class="glyphicon glyphicon-time"></i>
+                                        </button>
+                                        <button type="button" ng-show="false"  
+                                                title="Đặt lịch thiết bị" class="btn btn-sm btn-warning" data-toggle="modal" 
+                                                ng-click="deviceSchedule(item)">
+                                            <i class="glyphicon glyphicon-time"></i>
+                                        </button>
+                                        <button type="button" ng-show="device_control" 
+                                                title="Danh sách lịch server" class="btn btn-sm btn-warning" data-toggle="modal" 
+                                                ng-click="listServer(item)">
+                                            <i class="glyphicon glyphicon-cloud-download"></i>
+                                        </button>
+                                        <button type="button" ng-show="device_control" 
+                                                title="Lịch sử điều khiển" class="btn btn-sm btn-warning" data-toggle="modal" 
+                                                ng-click="history(item)">
+                                            <i class="glyphicon glyphicon-hourglass"></i>
+                                        </button>
+                                        <button ng-show="device_manage" 
+                                                class="btn btn-xs btn-danger"
+                                                mwl-confirm
+                                                title="Xóa thiết bị"
+                                                message="Bạn muốn xóa thiết bị?"
+                                                confirm-text="Đồng ý"
+                                                cancel-text="Hủy"
+                                                placement="top"
+                                                on-confirm="delete(item)"
+                                                on-cancel="cancelClicked = true"
+                                                confirm-button-type="danger"
+                                                cancel-button-type="default">
+                                            <i class="glyphicon glyphicon-trash">
+                                            </i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody ng-show="isLoading">
+                            <tr>
+                                <td colspan="8" class="text-center">Đang tải dữ liệu ... </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="8" class="text-center">
+                        <uib-pagination class="pagination-sm" 
+                                        items-per-page="pagination.itemPerPage"
+                                        total-items="pagination.totalItems" 
+                                        ng-model="pagination.currentPage" 
+                                        max-size="pagination.maxSize"
+                                        boundary-link-numbers="true" 
+                                        ng-change="pageChanged()"></uib-pagination>
+                        </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                    <div ng-show="isLoading" class="loading-indicator"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    .online{
+        background-color: #d3f7de !important;
+    }
+    .offline {
+        background-color: #f2f3df !important;
+    }
+    .blink {
+        -webkit-animation: blink 10s 2s;
+        -moz-animation: blink 10s 2s;
+        -o-animation: blink 10s 2s;
+        animation: blink 10s 2s;
+        font-weight: bolder;
+    }
+
+    @-webkit-keyframes blink {
+        0%, 49% {
+            background-color: rgb(117, 209, 63);
+        }
+        50%, 100% {
+            background-color: #e50000;
+        }
+        0%  {color: blue;}
+        10%  {color: yellow;}
+        20%  {color: blue;}
+        29%  {color: yellow;}
+        38%  {color: blue;}
+        46%  {color: yellow;}
+        54%  {color: blue;}
+        61%  {color: yellow;}
+        68%  {color: blue;}
+        74%  {color: yellow;}
+        80%  {color: blue;}
+        85%  {color: yellow;}
+        90%  {color: blue;}
+        92%  {color: yellow;}
+        94%  {color: blue;}
+        96%  {color: yellow;}
+        98%  {color: blue;}
+        100%  {color: yellow;}
+    }
+
+    @keyframes blink {
+        0%, 49% {
+            background-color: rgb(117, 209, 63);
+        }
+        50%, 100% {
+            background-color: #e50000;
+        }
+        0%  {color: blue;}
+        10%  {color: yellow;}
+        20%  {color: blue;}
+        29%  {color: yellow;}
+        38%  {color: blue;}
+        46%  {color: yellow;}
+        54%  {color: blue;}
+        61%  {color: yellow;}
+        68%  {color: blue;}
+        74%  {color: yellow;}
+        80%  {color: blue;}
+        85%  {color: yellow;}
+        90%  {color: blue;}
+        92%  {color: yellow;}
+        94%  {color: blue;}
+        96%  {color: yellow;}
+        98%  {color: blue;}
+        100%  {color: yellow;}
+    }
+</style>

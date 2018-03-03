@@ -1,0 +1,225 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+ * FCKeditor - The text editor for Internet - http://www.fckeditor.net
+ * Copyright (C) 2003-2009 Frederico Caldeira Knabben
+ *
+ * == BEGIN LICENSE ==
+ *
+ * Licensed under the terms of any of the following licenses at your
+ * choice:
+ *
+ *  - GNU General Public License Version 2 or later (the "GPL")
+ *    http://www.gnu.org/licenses/gpl.html
+ *
+ *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
+ *    http://www.gnu.org/licenses/lgpl.html
+ *
+ *  - Mozilla Public License Version 1.1 or later (the "MPL")
+ *    http://www.mozilla.org/MPL/MPL-1.1.html
+ *
+ * == END LICENSE ==
+ *
+ * This page shows all resources available in a folder in the File Browser.
+-->
+<html>
+<head>
+	<title>Resources</title>
+	<link href="browser.css" type="text/css" rel="stylesheet">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<script type="text/javascript" src="js/common.js"></script>
+	<script type="text/javascript">
+
+function createxmlHttp() {
+		var xmlHttp;
+		try {
+			xmlHttp = new XMLHttpRequest();
+		}
+		catch(e) {
+				var XmlHttpVersions = new Array('MSXML2.XMLHTTP.6.0','MSXML2.XMLHTTP.5.0','MSXML2.XMLHTTP.4.0','MSXML2.XMLHTTP.3.0','MSXML2.XMLHTTP','Microsoft.XMLHTTP');
+				for (var i=0; i<XmlHttpVersions.length && !xmlHttp; i++){
+					try {
+						xmlHttp = new ActiveXObject(XmlHttpVersions[i]);
+					}
+					catch (e) {}
+				}
+		}
+		if (!xmlHttp)
+			alert('Sorry we can not create an ActiveX in your browser, please update your browser or switch to another one.');
+		else
+			return xmlHttp;
+}
+
+function delPic(url,fname) {
+	var xmlHttp3 = createxmlHttp();
+	if (confirm('Are you sure you want to delete this file: '+fname+'?')) {
+		xmlHttp3.onreadystatechange = function(){
+			if(xmlHttp3.readyState == 1 || xmlHttp3.readyState == 2){
+				document.getElementById('delpic_cont_'+fname).innerHTML = '&nbsp;<font color="red">deleting...</font>';
+			}
+			else if (xmlHttp3.readyState == 4 && xmlHttp3.status == 200){
+				LoadResources( oConnector.ResourceType, oConnector.CurrentFolder ) ;
+			}
+		}
+		xmlHttp3.open("GET", url, true);
+		xmlHttp3.send(null);
+	}
+}
+
+function delFold(url,fname) {
+	var xmlHttp3 = createxmlHttp();
+	if (confirm('Are you sure you want to delete this folder: '+fname+'?')) {
+		xmlHttp3.onreadystatechange = function(){
+			if(xmlHttp3.readyState == 1 || xmlHttp3.readyState == 2){
+				document.getElementById('delfold_cont_'+fname).innerHTML = '&nbsp;<font color="red">deleting...</font>';
+			}
+			else if (xmlHttp3.readyState == 4 && xmlHttp3.status == 200){
+				LoadResources( oConnector.ResourceType, oConnector.CurrentFolder ) ;
+			}
+		}
+		xmlHttp3.open("GET", url, true);
+		xmlHttp3.send(null);
+	}
+}
+
+var oListManager = new Object() ;
+
+oListManager.Clear = function()
+{
+	document.body.innerHTML = '' ;
+}
+
+function ProtectPath(path)
+{
+	path = path.replace( /\\/g, '\\\\') ;
+	path = path.replace( /'/g, '\\\'') ;
+	return path ;
+}
+
+oListManager.GetFolderRowHtml = function( folderName, folderPath )
+{
+	// Build the link to view the folder.
+	var sLink = '<a href="#" onclick="OpenFolder(\'' + ProtectPath( folderPath ) + '\');return false;">' ;
+
+	return '<tr>' +
+			'<td width="16">' +
+				sLink +
+				'<img alt="" src="images/Folder.gif" width="16" height="16" border="0"><\/a>' +
+			'<\/td><td nowrap colspan="2">&nbsp;' +
+				sLink +
+				folderName +
+				'<\/a>' +
+			'<\/td><td align="right" id="delfold_cont_' + folderName + '">' +
+				'<a href="javascript:delFold(\'delfold.php?url=' + folderPath + '\',\'' + folderName + '\')">Delete<\/a>' +
+		'<\/td><\/tr>' ;
+}
+
+oListManager.GetFileRowHtml = function( fileName, fileUrl, fileSize )
+{
+	// Build the link to view the folder.
+	var sLink = '<a href="#" onclick="OpenFile(\'' + ProtectPath( fileUrl ) + '\');return false;">' ;
+
+	// Get the file icon.
+	var sIcon = oIcons.GetIcon( fileName ) ;
+
+	return '<tr>' +
+			'<td width="16">' +
+				sLink +
+				'<img alt="" src="images/icons/' + sIcon + '.gif" width="16" height="16" border="0"><\/a>' +
+			'<\/td><td>&nbsp;' +
+				sLink +
+				fileName +
+				'<\/a>' +
+			'<\/td><td align="right" nowrap>&nbsp;' +
+				fileSize +
+				' KB' +
+			'<\/td><td id="delpic_cont_' + fileName + '" align="right">&nbsp;' +
+				'<a href="javascript:delPic(\'delpic.php?url=' + fileUrl + '\',\'' + fileName + '\')">Delete</a>' +
+		'<\/td><\/tr>' ;
+}
+
+function OpenFolder( folderPath )
+{
+	// Load the resources list for this folder.
+	window.parent.frames['frmFolders'].LoadFolders( folderPath ) ;
+}
+
+function OpenFile( fileUrl )
+{
+	window.top.opener.SetUrl( encodeURI( fileUrl ).replace( '#', '%23' ) ) ;
+	window.top.close() ;
+	window.top.opener.focus() ;
+}
+
+function LoadResources( resourceType, folderPath )
+{
+	oListManager.Clear() ;
+	oConnector.ResourceType = resourceType ;
+	oConnector.CurrentFolder = folderPath ;
+	oConnector.SendCommand( 'GetFoldersAndFiles', null, GetFoldersAndFilesCallBack ) ;
+}
+
+function Refresh()
+{
+	LoadResources( oConnector.ResourceType, oConnector.CurrentFolder ) ;
+}
+
+function GetFoldersAndFilesCallBack( fckXml )
+{
+	if ( oConnector.CheckError( fckXml ) != 0 )
+		return ;
+
+	// Get the current folder path.
+	var oFolderNode = fckXml.SelectSingleNode( 'Connector/CurrentFolder' ) ;
+	if ( oFolderNode == null )
+	{
+		alert( 'The server didn\'t reply with a proper XML data. Please check your configuration.' ) ;
+		return ;
+	}
+	var sCurrentFolderPath	= oFolderNode.attributes.getNamedItem('path').value ;
+	var sCurrentFolderUrl	= oFolderNode.attributes.getNamedItem('url').value ;
+
+//	var dTimer = new Date() ;
+
+	var oHtml = new StringBuilder( '<table id="tableFiles" cellspacing="1" cellpadding="0" width="100%" border="0">' ) ;
+
+	// Add the Folders.
+	var oNodes ;
+	oNodes = fckXml.SelectNodes( 'Connector/Folders/Folder' ) ;
+	for ( var i = 0 ; i < oNodes.length ; i++ )
+	{
+		var sFolderName = oNodes[i].attributes.getNamedItem('name').value ;
+		oHtml.Append( oListManager.GetFolderRowHtml( sFolderName, sCurrentFolderPath + sFolderName + "/" ) ) ;
+	}
+
+	// Add the Files.
+	oNodes = fckXml.SelectNodes( 'Connector/Files/File' ) ;
+	for ( var j = 0 ; j < oNodes.length ; j++ )
+	{
+		var oNode = oNodes[j] ;
+		var sFileName = oNode.attributes.getNamedItem('name').value ;
+		var sFileSize = oNode.attributes.getNamedItem('size').value ;
+
+		// Get the optional "url" attribute. If not available, build the url.
+		var oFileUrlAtt = oNodes[j].attributes.getNamedItem('url') ;
+		var sFileUrl = oFileUrlAtt != null ? oFileUrlAtt.value : sCurrentFolderUrl + sFileName ;
+
+		oHtml.Append( oListManager.GetFileRowHtml( sFileName, sFileUrl, sFileSize ) ) ;
+	}
+
+	oHtml.Append( '<\/table>' ) ;
+
+	document.body.innerHTML = oHtml.ToString() ;
+
+//	window.top.document.title = 'Finished processing in ' + ( ( ( new Date() ) - dTimer ) / 1000 ) + ' seconds' ;
+
+}
+
+window.onload = function()
+{
+	window.top.IsLoadedResourcesList = true ;
+}
+	</script>
+</head>
+<body class="FileArea">
+</body>
+</html>
